@@ -19,7 +19,15 @@
 
 # provider for installing audit rules from a template
 action :create do
-  template '/etc/audit/audit.rules' do
+  # add centos support without changing others
+  rule_file = case node['platform']
+  when 'centos'
+    '/etc/audit/rules.d/audit.rules'
+  else
+    '/etc/audit/audit.rules'
+  end
+
+  template rule_file do
     source "#{new_resource.name}.erb"
     cookbook new_resource.cookbook if new_resource.cookbook
     notifies :restart, resources(service: 'auditd')
