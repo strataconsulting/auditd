@@ -33,6 +33,13 @@ template '/etc/audit/auditd.conf' do
   notifies :restart, 'service[auditd]'
 end
 
+# auditd syslog plugin
+template '/etc/audisp/plugins.d/syslog.conf' do
+  mode 00640
+  variables conf: node['auditd']['syslog']
+  notifies :restart, 'service[auditd]'
+end
+
 service 'auditd' do
   supports [:start, :stop, :restart, :reload, :status]
   if node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7

@@ -45,3 +45,12 @@ default['auditd']['conf'] = {
 	'enable_krb5' => 'no',
 	'krb5_principal' => 'auditd'
 }
+
+default['auditd']['syslog'] = {
+	'active' => 'no',
+	'direction' => 'out',
+	'path' => 'builtin_syslog',
+	'type' => 'builtin',
+	'args' => 'LOG_INFO',
+	'format' => 'string',
+}
