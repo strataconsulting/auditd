@@ -26,6 +26,13 @@ else
   package 'auditd'
 end
 
+# auditd.conf file
+template '/etc/audit/auditd.conf' do
+  mode 00640
+  variables conf: node['auditd']['conf']
+  notifies :restart, 'service[auditd]'
+end
+
 service 'auditd' do
   supports [:start, :stop, :restart, :reload, :status]
   if node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7
